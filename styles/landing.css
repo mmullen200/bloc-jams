@@ -1,4 +1,6 @@
-
+body.landing {
+    background-color: rgb(58,23,63);
+}
  
  .hero-content {
      position: relative;
@@ -26,25 +28,27 @@
  
  .selling-points {
      position: relative;
+     -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+     
      
  }
  
  .point {
      
      position: relative;
-     
      padding: 2rem;
      text-align: center;
-     opacity: 0;
-     -webkit-transform: scaleX(0.9) translateY(3rem);
-     -moz-transform: scaleX(0.9) translateY(3rem);
-     transform: scaleX(0.9) translateY(3rem);
+      opacity: 0;
+     -webkit-transform: scaleX(0.3) translateY(3rem);
+     -moz-transform: scaleX(0.3) translateY(3rem);
+     transform: scaleX(0.3) translateY(3rem);
      -webkit-transition: all 0.25s ease-in-out;
      -moz-transition: all 0.25s ease-in-out;
-     transition: all 0.25s ease-in-out;
-     -webkit-transition-delay: 0.2s;
-     -moz-transition-delay: 0.2s;
-     transition-delay: 0.2s;
+     transition: all 5s ease-in-out;
+     -webkit-transition-delay: 4s;
+     -moz-transition-delay: 4s;
+     transition-delay: 4s;
  }
  
  .point .point-title {
