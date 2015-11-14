@@ -32,6 +32,24 @@ var albumMarconi = {
     
 };
 
+var albumBobsBurgers = {
+    name: 'Extra Cheese',
+    artist: 'Bob & Family',
+    label: 'Small-Time Records',
+    year: '2015',
+    albumArtURL: 'assets/images/album_covers/11.png',
+    songs: [
+        {name: 'Limburger Hop', length: '2:02'},
+        {name: 'Captain Double Beefheart', length: '3:03'},
+        {name: 'Feelin Swiss Cheesy', length: '4:04'},
+        {name: 'Lettuce Dance', length: '5:05'},
+        {name: 'Why You Grillin Me?', length: '6:06'}
+    
+    ]
+    
+    
+};
+
 var createSongRow = function (songNumber, songName, songLength) {
     var template=
         '<tr class="album-view-song-item">'
@@ -45,17 +63,19 @@ var createSongRow = function (songNumber, songName, songLength) {
     
 };
 
-var setCurrentAlbum = function(album) {
     var albumTitle = document.getElementsByClassName('album-view-title')[0];
     var albumArtist = document.getElementsByClassName('album-view-artist')[0];
     var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
     var albumImage = document.getElementsByClassName('album-cover-art')[0];
     var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+
+var setCurrentAlbum = function(album) {
+    
     
     albumTitle.firstChild.nodeValue = album.name;
     albumArtist.firstChild.nodeValue = album.artist;
     albumReleaseInfo.firstChild.nodeValue = album.year + ' ' + album.label;
-    albumImage.setAttribute('src', album.album.albumArtUrl);
+    albumImage.setAttribute('src', album.albumArtURL);
     
     albumSongList.innerHTML = '';
     
@@ -66,7 +86,18 @@ var setCurrentAlbum = function(album) {
     
 };
 
+
+
 window.onload = function () {
     
     setCurrentAlbum(albumPicasso);
+    var albums = [albumPicasso, albumMarconi, albumBobsBurgers];
+    var index = 1;
+    albumImage.addEventListener("click", function(event){
+        setCurrentAlbum(albums[index]);
+        index++;
+        if (index == albums.length){
+            index = 0;
+        }
+    });
 };
