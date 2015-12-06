@@ -113,7 +113,7 @@ var nextSong = function() {
     }
     
     //Set a new current song
-    songSet(currentSongIndex + 1);
+    setSong(currentSongIndex + 1);
     currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
     
     // Update the Player Bar information
@@ -146,7 +146,7 @@ var previousSong = function() {
     }
     
     // Set a new current song
-    songSet(currentSongIndex + 1);
+    setSong(currentSongIndex + 1);
     currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
     
     // Update the Player Bar information
@@ -190,7 +190,7 @@ var clickHandler = function(targetElement) {
     } else if (currentlyPlayingSongNumber !== songItem.getAttribute('data-song-number')) {
         var currentlyPlayingSongElement = document.querySelector('[data-song-number="' + currentlyPlayingSongNumber + '"]');
         songItem.innerHTML = pauseButtonTemplate;
-        songSet(songItem.getAttribute('data-song-number'));
+        setSong(songItem.getAttribute('data-song-number'));
         
     }
 };
