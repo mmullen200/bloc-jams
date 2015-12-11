@@ -25,6 +25,7 @@ var setVolume = function(volume) {
 };
 
 var getSongNumberCell = function(number) {
+    // So data-song-number is a string, so you need the single quotes inside the double quotes to immediately break out of the string. The plus signs ar necessary because we're concatenating. 
     return $('.song-item-number[data-song-number="' + number + '"]');
 }
 
@@ -127,7 +128,7 @@ var trackIndex = function(album, song) {
 
 var nextSong = function() {
     
-    // If the index is 0, it goes to the end of currentAlbum.songs, but I'm not sure why we want to do that.
+    // So if we click on song number 3, for instance, the button above that song will need to change from play/pause back to the track number. So as soon as we go to 3, the play/pause changes to 2. That's the purpose of getLastSongNumber
     var getLastSongNumber = function(index) {
         return index == 0 ? currentAlbum.songs.length : index;
     };
@@ -227,6 +228,21 @@ var clickHandler = function(targetElement) {
     }
 };
 
+var togglePlayFromPlayerBar = function() {
+    var $currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+    if (currentSoundFile.isPaused()) {
+        $currentlyPlayingCell.html(pauseButtonTemplate);
+        $(this).html(playerBarPauseButton);
+        currentSoundFile.play();
+    } else if (currentSoundFile) {
+        $currentlyPlayingCell.html(playButtonTemplate);
+        $(this).html(playerBarButton);
+        currentSoundFile.pause();
+    }
+    
+};
+
+
 
 // album button templates
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
@@ -244,11 +260,13 @@ var currentVolume = 80;
 
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
+var $playPauseButton = $('.main-controls .play-pause');
 
 $(document).ready(function() {
     
     setCurrentAlbum(albumPicasso);
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
+    $playPauseButton click(togglePlayFromPlayerBar);
     
 });
