@@ -23,7 +23,7 @@ var seek = function(time) {
     if (currentSoundFile) {
         currentSoundFile.setTime(time);
     }
-}
+};
 
 var setVolume = function(volume) {
     if (currentSoundFile) {
@@ -136,15 +136,30 @@ var setCurrentAlbum = function(album) {
     
 };
 
+var setCurrentTimeInPlayerBar = function(currentTime) {
+	var $currentTimeElement = $('.seek-control .current-time');
+	$currentTimeElement.text(currentTime);
+	
+};
+
+var setTotalTimeInPlayerBar = function(totalTime) {
+	
+	var $totalTimeElement = $('.seek-control .total-time');
+	$totalTimeElement.text(totalTime);
+
+};
+
 var updateSeekBarWhileSongPlays = function() {
     if (currentSoundFile) {
         // timeupdate is a custom Buzz event that fires repeatedly during song playback. We bind this event to currentSoundFile
         currentSoundFile.bind('timeupdate', function() {
             // Buzz's getTime() method gets the current time of the song and the getDuration() gets the total length of the song
-            var seekBarFillRatio = this.getTime() / this.getDuration();
+            var currentTime = this.getTime();
+            var seekBarFillRatio = currentTime / this.getDuration();
             var $seekBar = $('.seek-control .seek-bar');
             
             updateSeekPercentage($seekBar, seekBarFillRatio);
+            setCurrentTimeInPlayerBar(filterTimeCode(currentTime));
         });
     }
 };
@@ -214,13 +229,12 @@ var trackIndex = function(album, song) {
 
 var nextSong = function() {
     
-    // If the index is 0, it goes to the end of currentAlbum.songs, but I'm not sure why we want to do that.
+   
     var getLastSongNumber = function(index) {
         return index == 0 ? currentAlbum.songs.length : index;
     };
     
     var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
-    
     currentSongIndex++;
     
     //This next conditional says that, if currentSongIndex has a value higher than the number of tracks on the album, then it will revert to index 0. So it wraps around to the first song.
@@ -246,6 +260,39 @@ var nextSong = function() {
     
     $nextSongNumberCell.html(pauseButtonTemplate);
     $lastSongNumberCell.html(lastSongNumber);
+    
+};
+
+var filterTimeCode = function (timeInSeconds) {
+    var seconds = Number.parseFloat(timeInSeconds);
+    var wholeSeconds = Math.floor(seconds);
+    var minutes = Math.floor(wholeSeconds / 60);
+    var remainingSeconds = wholeSeconds % 60;
+    
+    var output = minutes + ':';
+    
+    if (remainingSeconds < 10) {
+        output += '0';
+    }
+    
+    output += remainingSeconds;
+    
+    return output;
+    
+    
+    /*
+    var secondsFloat = parseFloat(timeInSeconds);
+    var minutes = Math.floor(secondsFloat / 60);
+    var seconds = secondsFloat - (minutes * 60);
+
+    
+    var timeInMinutes = seconds / 60; // 2.5
+    var timeParts = timeInMinutes.split(".");
+    var minutes = timeParts[0];
+    var seconds = Math.floor(timeParts[1] * 60);
+    */
+    
+    
     
 };
 
@@ -292,7 +339,7 @@ var updatePlayerBarSong = function() {
     // The below line updates the HTML of the play/pause button to the content of playerBarPauseButton
     $('.main-controls .play-pause').html(playerBarPauseButton);
     
-    
+    setTotalTimeInPlayerBar(filterTimeCode(currentSongFromAlbum.length));
 };
 
 
